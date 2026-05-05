@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 
@@ -10,12 +10,19 @@ y = df["Marks"]
 model = LinearRegression()
 model.fit(X, y)
 
-prediction = model.predict([[5, 7, 90]])[0]
-
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def home():
-    return render_template("index.html", prediction=round(prediction, 2))
+    prediction = None
+
+    if request.method == "POST":
+        hours = float(request.form["hours"])
+        sleep = float(request.form["sleep"])
+        attendance = float(request.form["attendance"])
+
+        prediction = model.predict([[hours, sleep, attendance]])[0]
+
+    return render_template("index.html", prediction=prediction)
 
 app.run(debug=True)
