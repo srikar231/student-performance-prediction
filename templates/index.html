@@ -5,6 +5,23 @@
 </head>
 <body>
     <h1>Student Performance Prediction</h1>
-    <h2>Predicted Marks: {{ prediction }}</h2>
+
+    <form method="POST">
+        <label>Study Hours:</label>
+        <input type="number" name="hours" required><br><br>
+
+        <label>Sleep Hours:</label>
+        <input type="number" name="sleep" required><br><br>
+
+        <label>Attendance %:</label>
+        <input type="number" name="attendance" required><br><br>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction %}
+        <h2>Predicted Marks: {{ prediction }}</h2>
+    {% endif %}
+
 </body>
 </html>
